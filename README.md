@@ -130,17 +130,3 @@ We welcome contributions! To get started:
 
 ---
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-## Contact
-
-For questions or support, please reach out to the development team:
-
-- **Backend Lead**: Your Name (rdchethan22@gmail.com)
-- **Frontend Lead**: Collaborator Name (rdevananda27@gmail.com)
-
-

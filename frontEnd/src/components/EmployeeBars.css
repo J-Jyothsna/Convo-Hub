@@ -1,0 +1,32 @@
+.employee-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.employee-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.employee-name {
+  width: 150px;
+  font-weight: bold;
+}
+
+.employee-bar {
+  display: flex;
+  gap: 2px;
+}
+
+.box {
+  width: 15px;
+  height: 15px;
+  background-color: lightgray;
+  border: 1px solid #ccc;
+}
+
+.box.highlight {
+  background-color: green;
+}

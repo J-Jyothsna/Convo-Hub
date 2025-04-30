@@ -1,6 +1,6 @@
 # ConvoHub
 
-Connectify is a robust application that facilitates meeting scheduling, and employee collaboration. It features meeting scheduling with overlapping time zones, and email notifications to enhance productivity in an organization.
+ConvoHub is a robust application that facilitates meeting scheduling, and employee collaboration. It features meeting scheduling with overlapping time zones, and email notifications to enhance productivity in an organization.
 
 ## Features
 

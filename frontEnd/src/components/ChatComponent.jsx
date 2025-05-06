@@ -316,7 +316,8 @@ const ChatApp = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [unreadMessages, setUnreadMessages] = useState({});
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState(""); // New state for the message input
+  const [newMessage, setNewMessage] = useState("");
+
   const senderId = sessionStorage.getItem("userId");
   const token = sessionStorage.getItem("authToken");
   const API_END_POINT = "http://localhost:8222/api/employees";
@@ -338,16 +339,12 @@ const ChatApp = () => {
     };
     fetchEmployees();
 
-    // Set up polling for new messages
     const pollInterval = setInterval(fetchUnreadMessages, 10000);
     return () => clearInterval(pollInterval);
   }, []);
 
   const fetchUnreadMessages = async () => {
-    if (!senderId || !token) {
-      console.error("Missing senderId or token");
-      return;
-    }
+    if (!senderId || !token) return;
 
     try {
       const response = await fetch(
@@ -361,13 +358,10 @@ const ChatApp = () => {
         }
       );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
       const data = await response.json();
 
-      // Group messages by senderId instead of receiverId
       const groupedMessages = {};
       data.forEach((message) => {
         if (!groupedMessages[message.senderId]) {
@@ -378,7 +372,6 @@ const ChatApp = () => {
 
       setUnreadMessages(groupedMessages);
 
-      // Update unread counts
       const counts = {};
       Object.keys(groupedMessages).forEach((senderId) => {
         counts[senderId] = groupedMessages[senderId].length;
@@ -391,7 +384,6 @@ const ChatApp = () => {
 
   const fetchMessages = async (userId) => {
     try {
-      // Fetch all messages between current user and selected user in both directions
       const [sentMessages, receivedMessages] = await Promise.all([
         fetch(
           `http://localhost:8222/api/messages/${senderId}/${userId}`,
@@ -413,7 +405,6 @@ const ChatApp = () => {
         ).then((res) => res.json()),
       ]);
 
-      // Combine and sort all messages by timestamp
       const allMessages = [...sentMessages, ...receivedMessages];
       setMessages(
         allMessages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
@@ -428,10 +419,9 @@ const ChatApp = () => {
     setShowNotifications(false);
     fetchMessages(userId);
 
-    // Mark messages from this user as read
     if (unreadMessages[userId]) {
       try {
-        const messageIds = unreadMessages[userId].map((message) => message.id);
+        const messageIds = unreadMessages[userId].map((msg) => msg.id);
 
         const response = await fetch(
           `http://localhost:8222/api/messages/mark-as-read`,
@@ -445,11 +435,8 @@ const ChatApp = () => {
           }
         );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-        // Update unread counts and messages
         setUnreadCounts((prev) => ({ ...prev, [userId]: 0 }));
         setUnreadMessages((prev) => {
           const updated = { ...prev };
@@ -475,52 +462,15 @@ const ChatApp = () => {
     return user?.empName || "";
   };
 
-  // const handleSendMessage = async () => {
-  //   if (!newMessage.trim()) return; // Prevent sending empty messages
-
-  //   try {
-  //     const response = await fetch(
-  //       "http://localhost:8222/api/messages/send",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           senderId,
-  //           receiverId: currentChatUser,
-  //           content: newMessage,
-  //         }),
-  //       }
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-
-  //     // Add the new message to the messages list
-  //     const message = {
-  //       senderId,
-  //       receiverId: currentChatUser,
-  //       content: newMessage,
-  //       timestamp: new Date().toISOString(),
-  //     };
-  //     setMessages((prevMessages) => [...prevMessages, message]);
-  //     setNewMessage(""); // Clear the input field
-  //   } catch (error) {
-  //     console.error("Error sending message:", error);
-  //   }
-  // };
-
-
   const handleSendMessage = async () => {
-    if (!newMessage.trim()) return; // Prevent sending empty messages
-  
+    if (!newMessage.trim()) return;
+
     try {
-      const senderZoneId = Intl.DateTimeFormat().resolvedOptions().timeZone; // Get the user's time zone
+      const senderZoneId = Intl.DateTimeFormat().resolvedOptions().timeZone;
       const response = await fetch(
-        `http://localhost:8222/api/messages/send?senderId=${senderId}&senderZoneId=${senderZoneId}&receiverId=${currentChatUser}&content=${encodeURIComponent(newMessage)}`,
+        `http://localhost:8222/api/messages/send?senderId=${senderId}&senderZoneId=${encodeURIComponent(
+          senderZoneId
+        )}&receiverId=${currentChatUser}&content=${encodeURIComponent(newMessage)}`,
         {
           method: "POST",
           headers: {
@@ -528,25 +478,21 @@ const ChatApp = () => {
           },
         }
       );
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      // Add the new message to the messages list
+
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
       const message = {
         senderId,
         receiverId: currentChatUser,
         content: newMessage,
         timestamp: new Date().toISOString(),
       };
-      setMessages((prevMessages) => [...prevMessages, message]);
-      setNewMessage(""); // Clear the input field
+      setMessages((prev) => [...prev, message]);
+      setNewMessage("");
     } catch (error) {
       console.error("Error sending message:", error);
     }
-  };
-  
+  };  
 
   return (
     <div className="flex h-screen bg-gray-100">

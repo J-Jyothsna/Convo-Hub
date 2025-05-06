@@ -43,4 +43,10 @@ public class MessageService {
         messages.forEach(message -> message.setRead(true));
         messageRepository.saveAll(messages);
     }
+
+    public List<Message> getMessagesBetweenUsers(String senderId, String receiverId) {
+        return messageRepository.findBySenderIdAndReceiverIdOrReceiverIdAndSenderIdOrderByTimestampAsc(
+                senderId, receiverId, senderId, receiverId);
+    }
+    
 }

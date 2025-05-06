@@ -39,9 +39,12 @@ public class MessageController {
         List<Message> unreadMessages = messageService.getUnreadMessages(senderId);
         return new ResponseEntity<>(unreadMessages, HttpStatus.OK);
     }
-//
-//    @GetMapping("{reciverId}/{senderId}")
-//    public ResponseEntity
+    @GetMapping("/{senderId}/{receiverId}")
+    public ResponseEntity<List<Message>> getMessages(@PathVariable String senderId, @PathVariable String receiverId) {
+        List<Message> messages = messageService.getMessagesBetweenUsers(senderId, receiverId);
+        return new ResponseEntity<>(messages, HttpStatus.OK);
+    }
+    
 
     @PutMapping("/mark-as-read")
     public ResponseEntity<Void> markMessagesAsRead(@RequestBody List<String> messageIds) {

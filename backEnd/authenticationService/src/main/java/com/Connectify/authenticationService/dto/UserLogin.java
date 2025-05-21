@@ -1,12 +1,16 @@
 package com.Connectify.authenticationService.dto;
 
+import com.Connectify.authenticationService.enums.Role;
+
 public class UserLogin {
     private String email;
     private String password;
+    private Role role;
 
-    public UserLogin(String email, String password) {
+    public UserLogin(String email, String password, Role role) {
         this.email = email;
         this.password = password;
+        this.role=role;
     }
 
     public UserLogin() {
@@ -27,4 +31,14 @@ public class UserLogin {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+    
+
 }

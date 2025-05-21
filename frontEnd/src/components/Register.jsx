@@ -181,6 +181,21 @@ function Register() {
               )}
             </div>
 
+            <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Role
+        </label>
+        <select
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+          className="w-full p-3 border border-gray-300 rounded-md"
+        >
+          <option value="USER">User</option>
+          <option value="ADMIN">Admin</option>
+        </select>
+      </div>
+
             {/* Submit Button */}
             <button
               type="submit"

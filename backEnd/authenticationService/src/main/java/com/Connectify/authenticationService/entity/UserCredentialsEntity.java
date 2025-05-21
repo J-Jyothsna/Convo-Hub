@@ -3,6 +3,8 @@ package com.Connectify.authenticationService.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.Connectify.authenticationService.enums.Role;
+
 @Document(collection = "user_credentials")
 public class UserCredentialsEntity {
     @Id
@@ -10,13 +12,16 @@ public class UserCredentialsEntity {
     private String email;
     private String password;
 
+    private Role role;
+
     public UserCredentialsEntity() {
     }
 
-    public UserCredentialsEntity(String id, String email, String password) {
+    public UserCredentialsEntity(String id, String email, String password, Role role) {
         this.id = id;
         this.email = email;
         this.password = password;
+        this.role=role;
     }
 
     public String getId() {
@@ -42,5 +47,25 @@ public class UserCredentialsEntity {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+public String toString() {
+    return "UserCredentialsEntity{" +
+            "id='" + id + '\'' +
+            ", email='" + email + '\'' +
+            ", password='" + password + '\'' +
+            ", role=" + role +
+            '}';
+}
+
+    
 }
 

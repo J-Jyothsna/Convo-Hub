@@ -2,6 +2,8 @@ package com.example.employeeService.dto;
 
 import org.springframework.data.annotation.Id;
 
+import com.example.employeeService.dao.Role;
+
 import java.time.Instant;
 import java.time.LocalTime;
 
@@ -16,11 +18,12 @@ public class EmployeeDto {
     String empTimezone;
     LocalTime empStartTime;
     LocalTime empEndTime;
+    Role role;
 
     public EmployeeDto() {
     }
 
-    public EmployeeDto(String empId, String empName, String empDesignation, String empEmail, String empPhone, String empCity, String empTimezone, LocalTime empStartTime, LocalTime empEndTime) {
+    public EmployeeDto(String empId, String empName, String empDesignation, String empEmail, String empPhone, String empCity, String empTimezone, LocalTime empStartTime, LocalTime empEndTime, Role role) {
         this.empId = empId;
         this.empName = empName;
         this.empDesignation = empDesignation;
@@ -30,6 +33,7 @@ public class EmployeeDto {
         this.empTimezone = empTimezone;
         this.empStartTime = empStartTime;
         this.empEndTime = empEndTime;
+        this.role=role;
     }
 
     public String getEmpId() {
@@ -103,4 +107,14 @@ public class EmployeeDto {
     public void setEmpEndTime(LocalTime empEndTime) {
         this.empEndTime = empEndTime;
     }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+
 }

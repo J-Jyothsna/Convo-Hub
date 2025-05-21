@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface UserCredentialsDao extends MongoRepository<UserCredentialsEntity, String> {
     Optional<UserCredentialsEntity> findByEmail(String email);
+    boolean existsByEmail(String email);
 }

@@ -2,6 +2,10 @@ package com.example.employeeService.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+import com.example.employeeService.dao.Role;
+import com.mongodb.lang.NonNull;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -21,6 +25,9 @@ public class EmployeeEntity {
     Instant empStartTime;
     Instant empEndTime;
     Boolean profileStatus;
+    
+    @Field(("role"))
+    private Role role;
 
     public Boolean getProfileStatus() {
         return profileStatus;
@@ -33,7 +40,7 @@ public class EmployeeEntity {
     public EmployeeEntity() {
     }
 
-    public EmployeeEntity(String empId, String empName, String empDesignation, String empEmail, String empPhone, String empCity, String empTimezone, Instant empStartTime, Instant empEndTime, Boolean profileStatus) {
+    public EmployeeEntity(String empId, String empName, String empDesignation, String empEmail, String empPhone, String empCity, String empTimezone, Instant empStartTime, Instant empEndTime, Boolean profileStatus, Role role) {
         this.empId = empId;
         this.empName = empName;
         this.empDesignation = empDesignation;
@@ -44,7 +51,10 @@ public class EmployeeEntity {
         this.empStartTime = empStartTime;
         this.empEndTime = empEndTime;
         this.profileStatus = profileStatus;
+        this.role = role;
     }
+
+    
 
     public String getEmpId() {
         return empId;
@@ -117,4 +127,14 @@ public class EmployeeEntity {
     public void setEmpEndTime(Instant empEndTime) {
         this.empEndTime = empEndTime;
     }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    
 }

@@ -26,6 +26,7 @@ public class EmployeeService {
         employee.setEmpEmail(employeeDto.getEmpEmail());
         employee.setEmpName(employeeDto.getEmpName());
         employee.setEmpPhone(employeeDto.getEmpPhone());
+        employee.setRole(employeeDto.getRole());
         employee.setProfileStatus(false);
 
         return employeeDao.save(employee);
@@ -55,6 +56,7 @@ public class EmployeeService {
             employee.setEmpTimezone(updatedEmployee.getEmpTimezone());
             employee.setEmpStartTime(updatedEmployee.getEmpStartTime());
             employee.setEmpEndTime(updatedEmployee.getEmpEndTime());
+            employee.setRole(updatedEmployee.getRole());
             return employeeDao.save(employee);
         }
         return null;
